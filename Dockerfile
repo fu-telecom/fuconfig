@@ -2,7 +2,7 @@
 FROM nginx:latest
 
 # Copy the contents of the fuconfig directory to the Nginx html directory
-COPY fuconfig /usr/share/nginx/html
+COPY ./ /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
