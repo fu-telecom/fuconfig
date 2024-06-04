@@ -26,3 +26,5 @@ jobs:
         run: |
           docker build -t registry.gitlab.com/futelecom/furegistry/nginx-fuconfig:latest .
           docker push registry.gitlab.com/futelecom/furegistry/nginx-fuconfig:latest
+
+          
