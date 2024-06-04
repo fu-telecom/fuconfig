@@ -1,0 +1,28 @@
+name: Build and Push Nginx FUConfig Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitLab Docker Registry
+        run: echo "${{ secrets.GITLABREGISTRY }}" | docker login registry.gitlab.com -u "${{ secrets.GITLABUSER }}" --password-stdin
+
+      - name: Build and Push Nginx FUConfig Image
+        run: |
+          docker build -t registry.gitlab.com/futelecom/furegistry/nginx-fuconfig:latest .
+          docker push registry.gitlab.com/futelecom/furegistry/nginx-fuconfig:latest
