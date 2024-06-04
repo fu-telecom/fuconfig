@@ -30,3 +30,5 @@ jobs:
           cd $GITHUB_WORKSPACE
           docker build -t registry.gitlab.com/futelecom/furegistry/nginx-fuconfig:latest .
           docker push registry.gitlab.com/futelecom/furegistry/nginx-fuconfig:latest
+
+          
