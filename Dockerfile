@@ -26,4 +26,4 @@ COPY ./ /usr/share/nginx/html
 EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container launches
-CMD ["sh", "-c", "service php-fpm start && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "nginx -g 'daemon off;'"]
