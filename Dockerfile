@@ -23,7 +23,7 @@ RUN systemctl enable php8.2-fpm
 # Copy the contents of the fuconfig directory to the Nginx html directory
 COPY ./ /usr/share/nginx/html
 
-COPY ./startupscript.sh /docker-entrypoint.d
+COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
 # Expose port 80
