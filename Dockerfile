@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
+RUN systemctl enable php8.2-fpm
 
 # Copy the contents of the fuconfig directory to the Nginx html directory
 COPY ./ /usr/share/nginx/html

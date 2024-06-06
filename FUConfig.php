@@ -79,7 +79,7 @@ class FUConfig
   //Initial DB setup. PDO is stored in static property.
   public function LoadDB()
   {
-    $host = '127.0.0.1';
+    $host = 'mysql';
     $db = 'fuconfig';
     $user = 'fuconfig';
     $pass = 'fuconfig';
