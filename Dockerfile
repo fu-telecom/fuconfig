@@ -24,7 +24,7 @@ RUN systemctl enable php8.2-fpm
 COPY ./ /usr/share/nginx/html
 
 COPY ./startupscript.sh /docker-entrypoint.d
-RUN chmod -755 /docker-entrypoint.d/startupscript.sh
+RUN chmod +x /docker-entrypoint.d/startupscript.sh
 
 # Expose port 80
 EXPOSE 80
