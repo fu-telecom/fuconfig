@@ -8,8 +8,8 @@ include_once ('includes/db.php');
 $request = $_GET['request'];
 $namespace = 'default'; // Set the appropriate namespace
 $labelSelector = 'app=asterisk'; // Label used to identify the Asterisk pod
-$kubectlPath = '/usr/bin/kubectl';
-putenv('KUBECONFIG=/root/.kube/config');
+$kubectlPath = '/usr/local/bin/kubectl';
+putenv('KUBECONFIG=/home/www-data/.kube/config');
 
 // Function to get the name of the Asterisk pod
 function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
@@ -94,7 +94,4 @@ try {
 } catch (Exception $e) {
     error_log('Error: ' . $e->getMessage());
     http_response_code(500);
-    echo 'Internal Server Error';
-}
-
-?>
+    echo 'Internal Serve

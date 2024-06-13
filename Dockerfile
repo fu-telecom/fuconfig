@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
     php-xml \
     php-zip \
     php-soap \
-    systemd \
-    kubernetes-client
+    kubectl \
+    systemd
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
@@ -26,8 +26,12 @@ ADD ./fuconfig /usr/share/nginx/html
 ADD ./default /usr/share/nginx/default
 ADD ./asterisk_scripts /asterisk_scripts
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
-COPY ./kubeconfig /root/.kube/config
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
+
+# Set up kubeconfig for www-data
+RUN mkdir -p /home/www-data/.kube && \
+    chown -R www-data:www-data /home/www-data/.kube
+COPY --chown=www-data:www-data ./kubeconfig /home/www-data/.kube/config
 
 # Change ownership and permissions
 RUN chown -R www-data:www-data /usr/share/nginx/html
