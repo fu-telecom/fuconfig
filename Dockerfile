@@ -21,10 +21,10 @@ RUN apt-get update && apt-get install -y \
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy the contents of the fuconfig directory to the Nginx html directory
-ADD ./fuconfig /usr/share/nginx/html
-ADD ./default /usr/share/nginx/default
-ADD ./asterisk_scripts /asterisk_scripts
-ADD ./tftproot /tftproot
+COPY ./fuconfig /usr/share/nginx/html
+COPY ./default /usr/share/nginx/default
+COPY ./asterisk_scripts /asterisk_scripts
+COPY ./tftproot /tftproot
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
@@ -40,9 +40,10 @@ RUN chown -R www-data:www-data /usr/share/nginx/default
 RUN chown -R www-data:www-data /tftproot
 RUN chmod -R 755 /usr/share/nginx/html
 RUN chmod -R 755 /usr/share/nginx/default
+RUN chmod -R 755 /tftproot
 
 # Expose ports 80 and 69 (UDP)
 EXPOSE 80 69/udp
 
 # Start PHP-FPM, TFTP server, and Nginx when the container launches
-CMD ["sh", "-c", "service tftpd-hpa start && /docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "service php8.2-fpm start && service tftpd-hpa start && /docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
