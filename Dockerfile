@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     php-zip \
     php-soap \
     kubernetes-client \
+    tftpd-hpa \
     systemd
 
 # Remove default server definition
@@ -25,6 +26,7 @@ RUN systemctl enable php8.2-fpm
 ADD ./fuconfig /usr/share/nginx/html
 ADD ./default /usr/share/nginx/default
 ADD ./asterisk_scripts /asterisk_scripts
+ADD ./tftproot /tftproot
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
@@ -37,11 +39,12 @@ COPY --chown=www-data:www-data ./kubeconfig /home/www-data/.kube/config
 RUN chown -R www-data:www-data /usr/share/nginx/html
 RUN chown -R www-data:www-data /asterisk_scripts
 RUN chown -R www-data:www-data /usr/share/nginx/default
+RUN chown -R www-data:www-data /tftproot
 RUN chmod -R 755 /usr/share/nginx/html
 RUN chmod -R 755 /usr/share/nginx/default
 
-# Expose port 80
-EXPOSE 80
+# Expose ports 80 and 69 (UDP)
+EXPOSE 80 69/udp
 
-# Start PHP-FPM and Nginx when the container launches
-CMD ["sh", "-c", "/docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
+# Start PHP-FPM, TFTP server, and Nginx when the container launches
+CMD ["sh", "-c", "systemctl start tftpd-hpa && /docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]

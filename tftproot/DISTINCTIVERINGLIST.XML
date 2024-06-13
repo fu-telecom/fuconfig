@@ -1,0 +1,14 @@
+<CiscoIPPhoneRingList>
+<Ring>
+    <DisplayName>Twenty-four</DisplayName>
+    <FileName>CTU24.raw</FileName>
+</Ring>
+<Ring>
+    <DisplayName>Twunty-fore</DisplayName>
+    <FileName>CTU.raw</FileName>
+</Ring>
+<Ring>
+   <DisplayName>Rangers Klaxon</DisplayName>
+   <FileName>Klaxons.raw</FileName>
+</Ring>
+</CiscoIPPhoneRingList>

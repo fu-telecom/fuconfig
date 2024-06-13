@@ -1,0 +1,27 @@
+
+
+
+
+
+set -ex
+
+MACADDR=$1
+EXTENSION=$2
+NAME=$3
+
+SIPFILE=/etc/asterisk/sip.conf
+DIALFILE=/etc/asterisk/extensions.conf
+
+echo "" >> $SIPFILE
+echo "[$MACADDR](softphone,my-codecs)" >> $SIPFILE
+echo "secret=$MACADDR" >> $SIPFILE
+echo "callerid=$NAME <$EXTENSION>" >> $SIPFILE
+echo "" >> $SIPFILE
+
+echo "" >> $DIALFILE
+echo "exten => $EXTENSION,hint,SIP/$MACADDR" >> $DIALFILE
+echo "exten => $EXTENSION,1,Dial(SIP/$MACADDR, \${RINGTIME})" >> $DIALFILE
+echo "" >> $DIALFILE
+
+asterisk -x "sip reload"
+asterisk -x "dialplan reload"

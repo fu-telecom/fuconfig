@@ -1,0 +1,42 @@
+<device>
+ <devicePool>
+  <callManagerGroup>
+   <members>
+    <member  priority="0">
+     <callManager>
+      <ports>
+       <ethernetPhonePort>2000</ethernetPhonePort>
+      </ports>
+      <processNodeName>172.16.1.2</processNodeName>
+     </callManager>
+    </member>
+   </members>
+  </callManagerGroup>
+ </devicePool>
+ <versionStamp>{Jan 01 2002 00:00:00}</versionStamp>
+ <loadInformation>SCCP45.9-4-2SR3-1S</loadInformation>
+ <addOnModules>
+ <addOnModule idx="1">
+ <loadInformation>B016-1-0-4-2</loadInformation>
+ </addOnModule>
+ <addOnModule idx="2">
+ <loadInformation>B016-1-0-4-2</loadInformation>
+ </addOnModule>
+ </addOnModules>
+ <userLocale>
+  <name>English_United_States</name>
+  <langCode>en</langCode>
+ </userLocale>
+ <networkLocale>United_States</networkLocale>
+ <idleTimeout></idleTimeout>
+ <authenticationURL></authenticationURL>
+ <directoryURL>http://172.16.1.2/directory.xml</directoryURL>
+ <idleURL></idleURL>
+<informationURL></informationURL>
+<messagesURL></messagesURL>
+ <proxyServerURL></proxyServerURL>
+ <servicesURL></servicesURL>
+<phonePersonalization>1</phonePersonalization>
+</device>
+
+

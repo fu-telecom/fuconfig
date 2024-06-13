@@ -1,0 +1,291 @@
+[general]
+;
+; If static is set to no, or omitted, then the pbx_config will rewrite
+; this file when extensions are modified.  Remember that all comments
+; made in the file will be lost when that happens.
+;
+; XXX Not yet implemented XXX
+;
+static=yes
+;
+; if static=yes and writeprotect=no, you can save dialplan by
+; CLI command "dialplan save" too
+;
+writeprotect=no
+
+
+; If clearglobalvars is set, global variables will be cleared 
+; and reparsed on a dialplan reload, or Asterisk reload. 
+; 
+; If clearglobalvars is not set, then global variables will persist 
+; through reloads, and even if deleted from the extensions.conf or 
+; one of its included files, will remain set to the previous value. 
+; 
+; NOTE: A complication sets in, if you put your global variables into 
+; the AEL file, instead of the extensions.conf file. With clearglobalvars 
+; set,a "reload" will often leave the globals vars cleared, because it 
+; is not unusual to have extensions.conf (which will have no globals) 
+; load after the extensions.ael file (where the global vars are stored). 
+; So, with "reload" in this particular situation, first the AEL file will 
+; clear and then set all the global vars, then, later, when the extensions.conf 
+; file is loaded, the global vars are all cleared, and then not set, because 
+; they are not stored in the extensions.conf file. 
+; 
+; clearglobalvars=yes 
+; 
+; User context is where entries from users.conf are registered.  The 
+; default value is 'default' 
+; 
+;userscontext=default ;
+
+[globals]
+
+RINGTIME=240 ;Because FUCK YOU
+
+;[assholes]
+
+;exten => s,1
+
+
+[pasystem] exten => s, 1, Answer(500) exten => s, n, MP3Player(/var/lib/asterisk/sounds/custom/pa_intro.mp3) exten => s, n, NoOp(${fileToRecord}) exten => s, n, 
+Set(fileToRecord=$[/home/pager/play_incoming/${EXTEN}.wav]) exten => s, n, Record(${fileToRecord},3,45) exten => s, n, Playback(en/beep) exten => s, n, Hangup()
+
+[default]
+
+;=========== PA/Paging System =============
+
+exten => 1000,1,Dial(SIP/pager36)
+exten => 1001,1,Dial(SIP/pager6)
+exten => 1002,1,Dial(SIP/pager35)
+
+exten => 1003,1,Dial(SIP/listener12)
+exten => 1004,1,Dial(SIP/listener34)
+;==========================================
+
+;==========4 port ATA for 900mhz phones!!======
+exten => 949273,1,Dial(SIP/wizard)
+exten => 333,1,Dial(SIP/elisha)
+exten => 72639,1,Dial(SIP/randy)
+exten => 77273,1,Dial(SIP/spare)
+;==============================================
+
+
+
+;====Myschievia Science Theatre Now Playing====
+exten => 500,1,Record(mymessage:gsm)
+exten => 500,2,Playback(mymessage)
+exten =>500,3,Hangup
+
+exten =>501,1,Playback(mymessage)
+;==============================================
+
+;=========Troll Speakerphone line===
+exten => 6789,1,Read(TESTVAR)
+exten => 6789,2,Dial(SCCP/${TESTVAR}/aa=1w&SCCP/555/aa=1w, 120)
+;===================================
+
+
+exten => 4321,1,Dial(SIP/dalecell)
+
+exten => 321321,1,Answer
+exten => 321321,2,MusicOnHold()
+
+
+exten => 1112,1,Dial(SIP/dalephone)
+
+exten => 567, 1, Dial(SCCP/402/aa=1w&SCCP/555/aa=1w, 120)
+
+;exten => 997, 1, Goto(pasystem)
+
+exten => 999, 1, Answer(50)
+exten => 999, n, MP3Player(/var/lib/asterisk/sounds/custom/pa_intro.mp3)
+;exten => 999, n, NoOp(${CALLERID(num)})
+;exten => 999, n, NoOp(${UNIQUEID})
+exten => 999, n, Set(fileNameTemp=/home/pager/play_incoming/${CALLERID(num)})
+;exten => 999, n, NoOp(${fileNameTemp})
+exten => 999, n, Set(fileToRecord=${fileNameTemp}.wav)
+;exten => 999, n, NoOp(${fileToRecord})
+;exten => 999, n, NoOp(50)
+exten => 999, n, Record(${fileToRecord},3,45)
+exten => 999, n, NoOp(/home/pager/pa_file_mover.sh ${fileToRecord})
+exten => 999, n, System(/home/pager/pa_file_mover.sh ${fileToRecord})
+;exten => 999, n, System(/home/pager/pa_play.sh)
+exten => 999, n, Playback(en/beep)
+exten => 999, n, Hangup()
+;exten => 999, n, System(/home/pager/pa_file_handler
+
+exten => 888,1,Answer(500)
+exten => 888,n,NoOp(${CALLERID(all)})
+exten =>888,n, Hangup()
+
+exten => 0,hint,SCCP/0
+
+;exten => 0,1,SCCPSetCalledParty("FUCK YOU OPERATOR" <0>)
+;exten => 0,n,Set(CONNECTEDLINE(name,i)=TEST)
+;exten => 0,n,Set(CONNECTEDLINE(name-pres,i)=allowed)
+;exten => 0,n,Set(CONNECTEDLINE(num,i)=0)
+;exten => 0,n,Set(CONNECTEDLINE(num-pres)=allowed)
+;exten => 0,1,SetCallerId(test <0>)
+
+exten => 0,1,Answer(500)
+;exten => 0,n,Playback(custom/fuckyou1.wav)
+exten => 0,n,Dial(SCCP/0, ${RINGTIME})
+
+exten => 5,1,Answer(500)
+exten => 5,n,MP3Player(/var/lib/asterisk/sounds/custom/fuckyou1.mp3)
+exten => 5,n,Hangup()
+
+;exten => 42,hint,SCCP/42
+;exten => 42,1,Dial(SCCP/42, ${RINGTIME})
+
+exten => 400,1,Answer()
+	same => n,Playback(hello-world)
+	same => n,Hangup()
+
+exten => 402,hint,SCCP/402
+
+;exten => 402,n,SCCPSetCalledParty("STAMP" <402>)
+;exten => 402,1,CALLERID(priv-name,TEST)
+;exten => 402,n,CALLERID(priv-num,402)
+
+;exten => 402,1,Answer(0)
+;exten => 402,2,Playback(custom/fuckyou1)
+
+exten => 402,1,Dial(SCCP/402, ${RINGTIME})
+
+
+
+
+;exten => 0,1,Dial(SCCP/0, ${RINGTIME})
+
+exten => 622,hint,SIP/1b3ae
+;exten => 622,1,SetCallerId("MC Canaveral <622>")
+exten => 622,1,Dial(SIP/1b3ae, ${RINGTIME})
+
+;Mission Control Houston
+exten => 624,hint,SIP/1b3ae1
+;exten => 624,1,SetCallerId("MC Houston <624>")
+exten => 624,1,Dial(SIP/1b3ae1, ${RINGTIME})
+
+
+
+exten => 247,1,Dial(SCCP/247, ${RINGTIME})
+
+;shade
+exten => 420,1,Dial(SCCP/420, ${RINGTIME})
+
+exten => 545,1,Dial(SCCP/545, ${RINGTIME})
+
+exten => 502,1,Dial(SCCP/502, ${RINGTIME})
+exten => 502,hint,SCCP/502
+
+exten => 555,hint,SCCP/555
+exten => 555,1,Dial(SCCP/555, ${RINGTIME})
+
+exten => 309,1,Dial(SCCP/309, ${RINGTIME})
+
+exten => 710,1,Dial(SCCP/710, ${RINGTIME})
+
+
+exten => 666,hint,SIP/3efb8
+exten => 666,1,Dial(SIP/3efb8, ${RINGTIME})
+
+
+exten => 667,hint,SIP/3efb81
+exten => 667,1,Dial(SIP/3efb81, ${RINGTIME})
+
+
+
+exten => 987,1,Dial(SCCP/987, ${RINGTIME})
+
+exten => 10,1,Dial(SCCP/10, ${RINGTIME})
+
+exten => 101,1,Dial(SCCP/101, ${RINGTIME})
+
+exten => 711,1,Dial(SCCP/711, ${RINGTIME})
+
+;exten => 777,hint,SCCP/777
+exten => 247,hint,SCCP/247
+exten => 420,hint,SCCP/420
+exten => 545,hint,SCCP/545
+exten => 502,hint,SCCP/502
+exten => 555,hint,SCCP/555
+exten => 710,hint,SCCP/710
+exten => 987,hint,SCCP/987
+exten => 10,hint,SCCP/10
+exten => 101,hint,SCCP/101
+exten => 711,hint,SCCP/711
+
+
+;exten => 333,hint,SIP/8ed06
+;exten => 333,1,Dial(SIP/8ed06, ${RINGTIME})
+
+
+exten => 1,hint,SCCP/1
+exten => 1,1,Dial(SCCP/1, ${RINGTIME})
+
+exten => 777,hint,SIP/ade4c
+exten => 777,1,Dial(SIP/ade4c, ${RINGTIME})
+
+
+exten => 123,hint,SIP/899a6,m
+exten => 123,1,Dial(SIP/899a6, ${RINGTIME})
+;exten => 123,1,setCallerID(WALLPHONE)
+
+exten => 111,hint,SCCP/111
+exten => 111,1,Dial(SCCP/111, ${RINGTIME})
+
+exten => 112,hint,SCCP/112
+exten => 112,1,Dial(SCCP/112, ${RINGTIME})
+
+exten => 113,hint,SCCP/113
+exten => 113,1,Dial(SCCP/113, ${RINGTIME})
+
+exten => 114,hint,SCCP/114
+exten => 114,1,Dial(SCCP/114, ${RINGTIME})
+
+exten => 115,hint,SCCP/115
+exten => 115,1,Dial(SCCP/115, ${RINGTIME})
+
+exten => 116,hint,SCCP/116
+exten => 116,1,Dial(SCCP/116, ${RINGTIME})
+
+exten => 117,hint,SCCP/117
+exten => 117,1,Dial(SCCP/117, ${RINGTIME})
+
+exten => 118,hint,SCCP/118
+exten => 118,1,Dial(SCCP/118, ${RINGTIME})
+
+exten => 119,hint,SCCP/119
+exten => 119,1,Dial(SCCP/119, ${RINGTIME})
+
+exten => 120,hint,SCCP/120
+exten => 120,1,Dial(SCCP/120, ${RINGTIME})
+
+exten => 121,hint,SCCP/121
+exten => 121,1,Dial(SCCP/121, ${RINGTIME})
+
+exten => 10,hint,SCCP/10
+exten => 10,1,Dial(SCCP/10, ${RINGTIME})
+
+exten => 888,hint,SCCP/888
+exten => 888,1,Dial(SCCP/888, ${RINGTIME})
+
+exten => 9876,hint,SCCP/9876
+exten => 9876,1,Dial(SCCP/9876, ${RINGTIME})
+
+exten => 911,hint,SCCP/911
+exten => 911,1,Dial(SCCP/911, ${RINGTIME})
+
+exten => 201,hint,SCCP/201
+exten => 201,1,Dial(SCCP/201, ${RINGTIME})
+
+exten => 202,hint,SCCP/202
+exten => 202,1,Dial(SCCP/202, ${RINGTIME})
+
+exten => 203,hint,SCCP/203
+exten => 203,1,Dial(SCCP/203, ${RINGTIME})
+
+exten => 203,hint,SCCP/203
+exten => 203,1,Dial(SCCP/203, ${RINGTIME})
+
