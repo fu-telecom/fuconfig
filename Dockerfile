@@ -16,25 +16,19 @@ RUN apt-get update && apt-get install -y \
     php-soap \
     git \
     unzip \
-    systemd
+    systemd \
+    curl
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl && \
+    mv kubectl /usr/local/bin/
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
 RUN systemctl enable php8.2-fpm
 
-# Set the working directory
-WORKDIR /usr/share/nginx/html
-
-# Copy the composer.json file to the container
-COPY /fuconfig/composer.json /usr/share/nginx/html/composer.json
-
-# Install PHP dependencies
-RUN composer install
-
-# Copy the rest of the project files to the container
+# Copy the contents of the fuconfig directory to the Nginx html directory
 ADD ./fuconfig /usr/share/nginx/html
 ADD ./default /usr/share/nginx/default
 ADD ./asterisk_scripts /asterisk_scripts
