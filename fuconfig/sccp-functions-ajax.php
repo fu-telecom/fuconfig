@@ -31,15 +31,24 @@ function execCommandInContainer($namespace, $podName, $command, $kubectlPath) {
     error_log("Running execCommandInContainer with command: $execCommand");
     $result = shell_exec($execCommand);
     error_log("Command output: $result");
+    if (!$result) {
+        throw new Exception('Command execution failed or returned no output');
+    }
+    if (strpos($result, 'Error') !== false) {
+        throw new Exception('Error executing command: ' . $result);
+    }
     return $result;
 }
 
 try {
+    error_log("Request received: $request");
     $podName = getAsteriskPodName($namespace, $labelSelector, $kubectlPath);
+    error_log("Asterisk pod name: $podName");
 
     if ($request == "reload") {
         $xml = new SimpleXMLElement('<xml/>');
         $phoneid = $_GET['phone_id'];
+        error_log("Processing reload for phone_id: $phoneid");
 
         $getPhoneSerialQry = "SELECT * FROM phones WHERE phone_id = ?;";
         $getPhoneSerial = $pdo->prepare($getPhoneSerialQry);
@@ -49,6 +58,7 @@ try {
         if (!$serial) {
             throw new Exception('Phone serial not found');
         }
+        error_log("Phone serial: $serial");
 
         $reloadcmd = 'asterisk -x "sccp reload device ' . $serial . '"';
         $result = execCommandInContainer($namespace, $podName, $reloadcmd, $kubectlPath);
@@ -60,6 +70,7 @@ try {
     } else if ($request == "restart") {
         $xml = new SimpleXMLElement('<xml/>');
         $phoneid = $_GET['phone_id'];
+        error_log("Processing restart for phone_id: $phoneid");
 
         $getPhoneSerialQry = "SELECT * FROM phones WHERE phone_id = ?;";
         $getPhoneSerial = $pdo->prepare($getPhoneSerialQry);
@@ -69,6 +80,7 @@ try {
         if (!$serial) {
             throw new Exception('Phone serial not found');
         }
+        error_log("Phone serial: $serial");
 
         $restartcmd = 'asterisk -x "sccp restart ' . $serial . '"';
         $result = execCommandInContainer($namespace, $podName, $restartcmd, $kubectlPath);
@@ -78,13 +90,23 @@ try {
 
         OutputXML($xml);
     } else if ($request == "redo") {
+        error_log("Processing redo for phone_id: " . $pageRequest->phone_id);
         $phone = Phone::LoadPhoneByID($pageRequest->phone_id);
+        if (!$phone) {
+            throw new Exception('Phone not found');
+        }
 
         // Remove the phone and reload it.
         $sccpProcessor = new SccpProcessor();
-        $sccpProcessor->DeletePhoneAsterisk($phone);
-        $sccpProcessor->AddPhoneAsterisk($phone);
-        $sccpProcessor->ReloadPhone($phone);
+        if (!$sccpProcessor->DeletePhoneAsterisk($phone)) {
+            throw new Exception('Failed to delete phone from Asterisk');
+        }
+        if (!$sccpProcessor->AddPhoneAsterisk($phone)) {
+            throw new Exception('Failed to add phone to Asterisk');
+        }
+        if (!$sccpProcessor->ReloadPhone($phone)) {
+            throw new Exception('Failed to reload phone in Asterisk');
+        }
 
         $xml = new SimpleXMLElement('<xml/>');
         $result = new Result();
@@ -92,6 +114,8 @@ try {
         $result->result = "Phone is redone, except for any lines.";
         $result->AddResultToXml($xml);
         OutputXML($xml);
+    } else {
+        throw new Exception('Invalid request type');
     }
 } catch (Exception $e) {
     error_log('Error: ' . $e->getMessage());
