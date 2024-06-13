@@ -1,9 +1,7 @@
 <?php
 
 // Manually load the php-k8s library
-require 'vendor/maclof/kubernetes-client/src/Config.php';
 require 'vendor/maclof/kubernetes-client/src/Client.php';
-require 'vendor/maclof/kubernetes-client/src/HttpClient.php';
 require 'vendor/maclof/kubernetes-client/src/Collections/Collection.php';
 require 'vendor/maclof/kubernetes-client/src/Models/Model.php';
 require 'vendor/maclof/kubernetes-client/src/Collections/PodCollection.php';
