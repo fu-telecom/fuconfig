@@ -24,6 +24,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY ./fuconfig /usr/share/nginx/html
 COPY ./default /usr/share/nginx/default
 COPY ./asterisk_scripts /asterisk_scripts
+# Ensure tftproot directory is removed first
+RUN rm -rf /tftproot
 COPY ./tftproot /tftproot
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
