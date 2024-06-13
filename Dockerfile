@@ -15,8 +15,7 @@ RUN apt-get update && apt-get install -y \
     php-zip \
     php-soap \
     kubernetes-client \
-    tftpd-hpa \
-    git
+    tftpd-hpa
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
@@ -25,11 +24,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY ./fuconfig /usr/share/nginx/html
 COPY ./default /usr/share/nginx/default
 COPY ./asterisk_scripts /asterisk_scripts
-
-# Clone the tftproot directory from the GitHub repository
-RUN rm -rf /tftproot && git clone --depth 1 --filter=blob:none --sparse https://github.com/fu-telecom/fuconfig.git /tmp/fuconfig && cd /tmp/fuconfig && git sparse-checkout set tftproot && mv /tmp/fuconfig/tftproot /tftproot && rm -rf /tmp/fuconfig
-
-# Copy the startup script
+COPY ./tftproot /tftproot
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
