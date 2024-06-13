@@ -92,6 +92,9 @@ try {
         OutputXML($xml);
     }
 } catch (Exception $e) {
-    error_log('Error: ' . $e->getMessage());
-    http_response_code(500);
-    echo 'Internal Serve
+  error_log('Error: ' . $e->getMessage());
+  http_response_code(500);
+  echo 'Internal Server Error';
+}
+
+?>
