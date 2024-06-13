@@ -9,26 +9,28 @@ include_once ('includes/db.php');
 $request = $_GET['request'];
 $namespace = 'default'; // Set the appropriate namespace
 $labelSelector = 'app=asterisk'; // Label used to identify the Asterisk pod
+$kubectlPath = '/usr/local/bin/kubectl'; // Explicit path to kubectl
 
 // Function to get the name of the Asterisk pod
-function getAsteriskPodName($namespace, $labelSelector) {
-    $command = "kubectl get pods -n $namespace -l $labelSelector -o jsonpath='{.items[0].metadata.name}'";
-    $podName = shell_exec($command);
-    return trim($podName);
+function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
+    $command = "$kubectlPath get pods -n $namespace -l $labelSelector -o jsonpath='{.items[0].metadata.name}' 2>&1";
+    $output = shell_exec($command);
+    error_log("kubectl command output: $output");
+    if (!$output) {
+        throw new Exception('Asterisk pod not found');
+    }
+    return trim($output);
 }
 
 // Function to execute a command in the Asterisk container
-function execCommandInContainer($namespace, $podName, $command) {
-    $execCommand = "kubectl exec -n $namespace $podName -- $command";
+function execCommandInContainer($namespace, $podName, $command, $kubectlPath) {
+    $execCommand = "$kubectlPath exec -n $namespace $podName -- $command";
     $result = shell_exec($execCommand);
     return $result;
 }
 
 try {
-    $podName = getAsteriskPodName($namespace, $labelSelector);
-    if (!$podName) {
-        throw new Exception('Asterisk pod not found');
-    }
+    $podName = getAsteriskPodName($namespace, $labelSelector, $kubectlPath);
 
     if ($request == "reload") {
         $xml = new SimpleXMLElement('<xml/>');
@@ -44,7 +46,7 @@ try {
         }
 
         $reloadcmd = 'asterisk -x "sccp reload device ' . $serial . '"';
-        $result = execCommandInContainer($namespace, $podName, $reloadcmd);
+        $result = execCommandInContainer($namespace, $podName, $reloadcmd, $kubectlPath);
 
         $xml->addChild("result", $result);
         $xml->addChild("phoneid", $phoneid);
@@ -64,7 +66,7 @@ try {
         }
 
         $restartcmd = 'asterisk -x "sccp restart ' . $serial . '"';
-        $result = execCommandInContainer($namespace, $podName, $restartcmd);
+        $result = execCommandInContainer($namespace, $podName, $restartcmd, $kubectlPath);
 
         $xml->addChild("result", $result);
         $xml->addChild("phoneid", $phoneid);
