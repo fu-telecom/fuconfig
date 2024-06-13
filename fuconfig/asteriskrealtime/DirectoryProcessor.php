@@ -32,7 +32,7 @@ class DirectoryProcessor
   {
     $this->result->Log("Replacing file with empty directory.<br>");
 
-    $folder = "/var/www/html/directory/";
+    $folder = "/usr/share/nginx/default/directory/";
     $filename = $directory->directory_filename;
     $cmd = "cp {$folder}{$filename}.empty {$folder}{$filename}";
 
@@ -69,7 +69,7 @@ class DirectoryProcessor
 
   private function GetFileName($directory)
   {
-    $fileName = "/var/www/html/directory/" . $directory->directory_filename;
+    $fileName = "/usr/share/nginx/default/directory/" . $directory->directory_filename;
 
     return $fileName;
   }
