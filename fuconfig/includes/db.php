@@ -4,8 +4,8 @@
 
 $host = 'mysql';
 $db = 'fuconfig';
-$user = 'fuconfig';
-$pass = 'fuconfig';
+$user = 'asteriskuser';
+$pass = 'asteriskBlah111';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
