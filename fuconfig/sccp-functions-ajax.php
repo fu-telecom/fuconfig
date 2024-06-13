@@ -1,5 +1,4 @@
 <?php
-
 // Include necessary files
 include_once ('FUConfig.php');
 $pageRequest = new PageRequest($_REQUEST);
@@ -9,10 +8,12 @@ include_once ('includes/db.php');
 $request = $_GET['request'];
 $namespace = 'default'; // Set the appropriate namespace
 $labelSelector = 'app=asterisk'; // Label used to identify the Asterisk pod
-$kubectlPath = '/usr/local/bin/kubectl'; // Explicit path to kubectl
+$kubectlPath = '/usr/local/bin/kubectl';
 
 // Function to get the name of the Asterisk pod
 function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
+    // Add debugging statement
+    error_log("Running getAsteriskPodName with kubectl");
     $command = "$kubectlPath get pods -n $namespace -l $labelSelector -o jsonpath='{.items[0].metadata.name}' 2>&1";
     $output = shell_exec($command);
     error_log("kubectl command output: $output");
@@ -24,6 +25,8 @@ function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
 
 // Function to execute a command in the Asterisk container
 function execCommandInContainer($namespace, $podName, $command, $kubectlPath) {
+    // Add debugging statement
+    error_log("Running execCommandInContainer with kubectl");
     $execCommand = "$kubectlPath exec -n $namespace $podName -- $command";
     $result = shell_exec($execCommand);
     return $result;
@@ -74,9 +77,6 @@ try {
         OutputXML($xml);
     } else if ($request == "redo") {
         $phone = Phone::LoadPhoneByID($pageRequest->phone_id);
-        if (!$phone) {
-            throw new Exception('Phone not found');
-        }
 
         // Remove the phone and reload it.
         $sccpProcessor = new SccpProcessor();
@@ -90,8 +90,6 @@ try {
         $result->result = "Phone is redone, except for any lines.";
         $result->AddResultToXml($xml);
         OutputXML($xml);
-    } else {
-        throw new Exception('Invalid request');
     }
 } catch (Exception $e) {
     error_log('Error: ' . $e->getMessage());

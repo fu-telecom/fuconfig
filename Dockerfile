@@ -14,8 +14,6 @@ RUN apt-get update && apt-get install -y \
     php-xml \
     php-zip \
     php-soap \
-    git \
-    unzip \
     systemd \
     curl
 
