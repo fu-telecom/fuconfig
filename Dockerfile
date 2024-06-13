@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     php-xml \
     php-zip \
     php-soap \
-    kubectl \
+    kubernetes-client \
     systemd
 
 # Remove default server definition
