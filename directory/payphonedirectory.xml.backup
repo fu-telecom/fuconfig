@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<CiscoIPPhoneDirectory>
+        <Title>Pay Phones</Title>
+        <Prompt>Try Our 1-900 Lines!</Prompt>
+
+
+ 
+<DirectoryEntry>
+    <Name>CrossroadsPayPhone</Name>
+    <Telephone>3806</Telephone>
+</DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>N-Badlands</Name>
+    <Telephone>3802</Telephone>
+</DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>CoralPayPhone</Name>
+    <Telephone>3804</Telephone>
+</DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>EffigyFieldPayPhone</Name>
+    <Telephone>3805</Telephone>
+</DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>S-BadlandsPayPhone</Name>
+    <Telephone>3803</Telephone>
+</DirectoryEntry>
+</CiscoIPPhoneDirectory>

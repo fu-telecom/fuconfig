@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<CiscoIPPhoneDirectory>
+  <Title>Theme Camp Directory</Title>
+  <Prompt>Prank a Kitty</Prompt>
+  <DirectoryEntry>
+    <Name>KFLIP</Name>
+    <Telephone>53547</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>5</Name>
+    <Telephone>5</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Brown Eye</Name>
+    <Telephone>7667</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Camp Casbah</Name>
+    <Telephone>333</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Chill</Name>
+    <Telephone>19002445688</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Doing It Loud</Name>
+    <Telephone>5683</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>FTV</Name>
+    <Telephone>666</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Random</Name>
+    <Telephone>726366</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Shrug</Name>
+    <Telephone>1111</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Sweet Jane</Name>
+    <Telephone>873287</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Tortuga</Name>
+    <Telephone>8678842</Telephone>
+  </DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>RedCamp</Name>
+    <Telephone>733</Telephone>
+</DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>Yayborhood</Name>
+    <Telephone>919</Telephone>
+</DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>GLAM</Name>
+    <Telephone>4526</Telephone>
+</DirectoryEntry>
+
+ 
+<DirectoryEntry>
+    <Name>WONDERLOUNGE</Name>
+    <Telephone>70</Telephone>
+</DirectoryEntry>
+</CiscoIPPhoneDirectory>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<CiscoIPPhoneDirectory>
+  <Title>Pay Phones</Title>
+  <Prompt>Try Our 1-900 Lines!</Prompt>
+  <DirectoryEntry>
+    <Name>Effigy Payphone</Name>
+    <Telephone>334</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Greeter Payphone</Name>
+    <Telephone>3803</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Kidvil Payphone</Name>
+    <Telephone>3804</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>N.Bad Payphone</Name>
+    <Telephone>3802</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>West Payphone</Name>
+    <Telephone>3805</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>XRoads Payphone</Name>
+    <Telephone>3806</Telephone>
+  </DirectoryEntry>
+</CiscoIPPhoneDirectory>

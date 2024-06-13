@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<CiscoIPPhoneDirectory>
+  <Title>FUT Corporate Phone List</Title>
+  <Prompt>Don't Call Us, We'll Call You</Prompt>
+  <DirectoryEntry>
+    <Name>COLLECTIONS</Name>
+    <Telephone>2655328</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Cust Disservice</Name>
+    <Telephone>3825968</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>FUT SALES</Name>
+    <Telephone>4383858</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>OPERATOR</Name>
+    <Telephone>0</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Tech Support</Name>
+    <Telephone>7448224</Telephone>
+  </DirectoryEntry>
+</CiscoIPPhoneDirectory>

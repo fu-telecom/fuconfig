@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<CiscoIPPhoneDirectory>
+  <Title>Volunteer Departments</Title>
+  <Prompt>Did you volunteer yet?</Prompt>
+  <DirectoryEntry>
+    <Name>ICE</Name>
+    <Telephone>423</Telephone>
+  </DirectoryEntry>
+</CiscoIPPhoneDirectory>

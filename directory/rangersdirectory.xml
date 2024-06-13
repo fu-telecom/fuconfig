@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<CiscoIPPhoneDirectory>
+  <Title>Call 999 For Rangers</Title>
+  <Prompt>Call 999 Or Click Below</Prompt>
+  <DirectoryEntry>
+    <Name>RANGERS</Name>
+    <Telephone>999</Telephone>
+  </DirectoryEntry>
+</CiscoIPPhoneDirectory>
