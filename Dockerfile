@@ -21,8 +21,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 RUN systemctl enable php8.2-fpm
 
 # Copy the contents of the fuconfig directory to the Nginx html directory
-COPY ./fuconfig /usr/share/nginx/html
-COPY ./directory /usr/share/nginx/default
+ADD ./fuconfig /usr/share/nginx/html
+ADD ./directory /usr/share/nginx/default
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
