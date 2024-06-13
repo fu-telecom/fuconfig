@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
     php-zip \
     php-soap \
     kubernetes-client \
-    tftpd-hpa
+    tftpd-hpa \
+    git
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
@@ -24,7 +25,14 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY ./fuconfig /usr/share/nginx/html
 COPY ./default /usr/share/nginx/default
 COPY ./asterisk_scripts /asterisk_scripts
-COPY ./tftproot /tftproot
+
+# Clone the tftproot directory from the GitHub repository
+RUN git clone --depth 1 https://github.com/fu-telecom/fuconfig.git /tmp/fuconfig && mv /tmp/fuconfig/tftproot/* /tftproot && rm -rf /tmp/fuconfig
+
+# Debugging: Verify contents of /tftproot after cloning
+RUN ls -la /tftproot
+
+# Copy the startup script
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
@@ -41,6 +49,9 @@ RUN chown -R www-data:www-data /tftproot
 RUN chmod -R 755 /usr/share/nginx/html
 RUN chmod -R 755 /usr/share/nginx/default
 RUN chmod -R 755 /tftproot
+
+# Debugging: Verify contents of /tftproot after permissions
+RUN ls -la /tftproot
 
 # Expose ports 80 and 69 (UDP)
 EXPOSE 80 69/udp
