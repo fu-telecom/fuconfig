@@ -26,6 +26,12 @@ ADD ./default /usr/share/nginx/default
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
+# Change ownership and permissions
+RUN chown -R www-data:www-data /usr/share/nginx/html
+RUN chown -R www-data:www-data /usr/share/nginx/default
+RUN chmod -R 755 /usr/share/nginx/html
+RUN chmod -R 755 /usr/share/nginx/default
+
 # Expose port 80
 EXPOSE 80
 
