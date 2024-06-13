@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     php-xml \
     php-zip \
     php-soap \
+    git \
     systemd
 
 # Remove default server definition
@@ -24,6 +25,11 @@ RUN systemctl enable php8.2-fpm
 ADD ./fuconfig /usr/share/nginx/html
 ADD ./default /usr/share/nginx/default
 ADD ./asterisk_scripts /asterisk_scripts
+
+# Install php-k8s library manually
+RUN git clone https://github.com/maclof/kubernetes-client.git /usr/share/nginx/html/vendor/maclof/kubernetes-client
+
+# Copy the startup script and make it executable
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 

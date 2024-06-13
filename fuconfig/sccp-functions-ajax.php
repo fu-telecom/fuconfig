@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+include_once('vendor/maclof/kubernetes-client/src/autoload.php');
 use Maclof\Kubernetes\Client as KubernetesClient;
 
 include_once('FUConfig.php');
@@ -32,11 +32,7 @@ function getAsteriskPodName($k8sClient, $namespace, $labelSelector) {
 function execCommandInContainer($k8sClient, $namespace, $podName, $containerName, $command) {
     $exec = $k8sClient->podExec();
     $response = $exec->execute($namespace, $podName, $containerName, $command, 'POST');
-    if ($response->isSuccessful()) {
-        return $response->getBody();
-    } else {
-        throw new Exception('Command execution failed: ' . $response->getBody());
-    }
+    return $response->getBody();
 }
 
 try {
@@ -105,7 +101,7 @@ try {
 } catch (Exception $e) {
     error_log('Error: ' . $e->getMessage());
     http_response_code(500);
-    echo 'Internal Server Error: ' . htmlspecialchars($e->getMessage());
+    echo 'Internal Server Error';
 }
 
 ?>
