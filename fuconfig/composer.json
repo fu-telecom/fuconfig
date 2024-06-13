@@ -1,0 +1,10 @@
+{
+    "require": {
+        "maclof/kubernetes-client": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}

@@ -15,22 +15,32 @@ RUN apt-get update && apt-get install -y \
     php-zip \
     php-soap \
     git \
+    unzip \
     systemd
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
 RUN systemctl enable php8.2-fpm
 
-# Copy the contents of the fuconfig directory to the Nginx html directory
-ADD ./fuconfig /usr/share/nginx/html
-ADD ./default /usr/share/nginx/default
-ADD ./asterisk_scripts /asterisk_scripts
+# Set the working directory
+WORKDIR /usr/share/nginx/html
 
-# Install php-k8s library manually
-RUN git clone https://github.com/maclof/kubernetes-client.git /usr/share/nginx/html/vendor/maclof/kubernetes-client
+# Copy the composer.json and composer.lock files to the container
+COPY composer.json /usr/share/nginx/html/composer.json
+COPY composer.lock /usr/share/nginx/html/composer.lock
 
-# Install Illuminate Support package manually
-RUN git clone https://github.com/illuminate/support.git /usr/share/nginx/html/vendor/illuminate/support
+# Install PHP dependencies
+RUN composer install
+
+# Copy the project files to the container
+COPY . /usr/share/nginx/html
+
+# Copy Nginx configuration
+COPY fuconfig-nginx-config/nginx.conf /etc/nginx/nginx.conf
+COPY fuconfig-nginx-config/default.conf /etc/nginx/conf.d/default.conf
 
 # Copy the startup script and make it executable
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
@@ -47,4 +57,4 @@ RUN chmod -R 755 /usr/share/nginx/default
 EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container launches
-CMD ["sh", "-c", "/docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "/docker-entrypoint.d/35-startupscript.sh && service nginx start && php-fpm"]
