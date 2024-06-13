@@ -38,10 +38,6 @@ RUN composer install
 # Copy the project files to the container
 COPY . /usr/share/nginx/html
 
-# Copy Nginx configuration
-COPY fuconfig-nginx-config/nginx.conf /etc/nginx/nginx.conf
-COPY fuconfig-nginx-config/default.conf /etc/nginx/conf.d/default.conf
-
 # Copy the startup script and make it executable
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
@@ -57,4 +53,4 @@ RUN chmod -R 755 /usr/share/nginx/default
 EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container launches
-CMD ["sh", "-c", "/docker-entrypoint.d/35-startupscript.sh && service nginx start && php-fpm"]
+CMD ["sh", "-c", "/docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
