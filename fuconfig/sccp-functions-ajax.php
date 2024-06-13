@@ -15,6 +15,9 @@ require 'vendor/maclof/kubernetes-client/src/Namespaces/PodNamespace.php';
 require 'vendor/maclof/kubernetes-client/src/HttpClient.php';
 require 'vendor/maclof/kubernetes-client/src/Contracts/HttpClientContract.php';
 
+// Manually load the Illuminate\Support\Collection class
+require 'vendor/illuminate/support/Collection.php';
+
 use Maclof\Kubernetes\Client as KubernetesClient;
 
 include_once('FUConfig.php');

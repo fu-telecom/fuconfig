@@ -29,6 +29,9 @@ ADD ./asterisk_scripts /asterisk_scripts
 # Install php-k8s library manually
 RUN git clone https://github.com/maclof/kubernetes-client.git /usr/share/nginx/html/vendor/maclof/kubernetes-client
 
+# Install Illuminate Support package manually
+RUN git clone https://github.com/illuminate/support.git /usr/share/nginx/html/vendor/illuminate/support
+
 # Copy the startup script and make it executable
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
