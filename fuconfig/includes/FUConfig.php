@@ -27,8 +27,8 @@ class FUConfig
   {
     $host = 'mysql';
     $db = 'fuconfig';
-    $user = 'asteriskuser';
-    $pass = 'asteriskBlah111';
+    $user = 'fuconfig';
+    $pass = 'fuconfig';
     $charset = 'utf8mb4';
 
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
