@@ -15,12 +15,7 @@ RUN apt-get update && apt-get install -y \
     php-zip \
     php-soap \
     systemd \
-    curl
-
-# Install kubectl
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-    chmod +x kubectl && \
-    mv kubectl /usr/local/bin/
+    kubernetes-client
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
@@ -31,6 +26,7 @@ ADD ./fuconfig /usr/share/nginx/html
 ADD ./default /usr/share/nginx/default
 ADD ./asterisk_scripts /asterisk_scripts
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
+COPY ./kubeconfig /root/.kube/config
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
 # Change ownership and permissions

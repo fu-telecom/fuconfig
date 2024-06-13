@@ -9,6 +9,7 @@ $request = $_GET['request'];
 $namespace = 'default'; // Set the appropriate namespace
 $labelSelector = 'app=asterisk'; // Label used to identify the Asterisk pod
 $kubectlPath = '/usr/local/bin/kubectl';
+putenv('KUBECONFIG=/root/.kube/config');
 
 // Function to get the name of the Asterisk pod
 function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
