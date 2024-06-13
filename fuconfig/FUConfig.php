@@ -23,7 +23,7 @@ class FUConfig {
     }
 
     public function AutoLoadClasses() {
-        // Autoload classes from asteriskrealtime and asteriskdataclasses directories
+        // Autoload classes from multiple directories
         spl_autoload_register(function ($class) {
             $paths = [
                 __DIR__ . '/asteriskrealtime/',
@@ -38,7 +38,6 @@ class FUConfig {
                 $classFile = $path . $class . '.php';
                 if (is_file($classFile)) {
                     include $classFile;
-                    error_log("Autoloaded class: " . $class . " from " . $classFile);
                     $found = true;
                     break;
                 }
