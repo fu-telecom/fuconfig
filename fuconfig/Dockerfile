@@ -21,8 +21,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 RUN systemctl enable php8.2-fpm
 
 # Copy the contents of the fuconfig directory to the Nginx html directory
-COPY ./ /usr/share/nginx/html
-
+COPY ./fuconfig /usr/share/nginx/html
+COPY ./directory /usr/share/nginx/default
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
@@ -31,4 +31,3 @@ EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container launches
 CMD ["sh", "-c", "/docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
-T
