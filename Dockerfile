@@ -23,11 +23,13 @@ RUN systemctl enable php8.2-fpm
 # Copy the contents of the fuconfig directory to the Nginx html directory
 ADD ./fuconfig /usr/share/nginx/html
 ADD ./default /usr/share/nginx/default
+ADD ./asterisk_scripts /asterisk_scripts
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
 # Change ownership and permissions
 RUN chown -R www-data:www-data /usr/share/nginx/html
+RUN chown -R www-data:www-data /asterisk_scripts
 RUN chown -R www-data:www-data /usr/share/nginx/default
 RUN chmod -R 755 /usr/share/nginx/html
 RUN chmod -R 755 /usr/share/nginx/default
