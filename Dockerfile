@@ -30,7 +30,6 @@ WORKDIR /usr/share/nginx/html
 
 # Copy the composer.json and composer.lock files to the container
 COPY composer.json /usr/share/nginx/html/composer.json
-COPY composer.lock /usr/share/nginx/html/composer.lock
 
 # Install PHP dependencies
 RUN composer install
