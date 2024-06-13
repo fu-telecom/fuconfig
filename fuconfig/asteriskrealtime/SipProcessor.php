@@ -3,9 +3,7 @@
 class SipProcessor
 {
   private $processResult = null;
-
-  private $result = null; //Current working result.
-
+  private $result = null; // Current working result.
   private $linesAdded = array();
 
   public function __construct($processResult)
@@ -16,7 +14,7 @@ class SipProcessor
   public function ProcessPhone($phone, $actionToTake, &$result)
   {
     $this->result = $result;
-    $this->linesAdded = array(); //Wipe array.
+    $this->linesAdded = array(); // Wipe array.
 
     if ($actionToTake == PhoneProcessor::DELETE_PHONE) {
       $this->result->Log("<b>Deleting Phone</b><br>");
@@ -48,7 +46,7 @@ class SipProcessor
 
     foreach ($assignmentList->GetList() as $assignment) {
       if ($assignment->todelete_assignment == 1)
-        continue; //getting deleted, skip it.
+        continue; // getting deleted, skip it.
 
       $number = $assignment->GetNumber();
       $this->AddToAsterisk($phone, $number);
@@ -60,8 +58,7 @@ class SipProcessor
 
   private function AddToAsterisk($phone, $number)
   {
-    $this->result->Log("Adding number to asterisk: " . $number->number .
-      " - " . $number->callerid . "<br>");
+    $this->result->Log("Adding number to asterisk: " . $number->number . " - " . $number->callerid . "<br>");
 
     if ($number->todelete_number == 1) {
       $this->result->Log("Skipping this number -- it's marked for deletion.<br>");
@@ -81,7 +78,7 @@ class SipProcessor
     $sipPeer->secret = $number->sip_pass;
     $sipPeer->callerid = $number->callerid;
     $sipPeer->cid_number = $number->callerid;
-    $sipPEer->type = "peer";
+    $sipPeer->type = "peer"; // Corrected typo here
     $sipPeer->SaveToDB();
 
     $number->sippeer_id = $sipPeer->id;
@@ -103,8 +100,6 @@ class SipProcessor
     foreach ($assignmentList->GetList() as $assignment) {
       $number = $assignment->GetNumber();
       $this->DeleteFromAsterisk($number);
-
-
     }
   }
 
@@ -128,8 +123,7 @@ class SipProcessor
 
   private function DeleteFromAsterisk($number)
   {
-    $this->result->Log("Deleting data from asterisk for number: " . $number->number .
-      " - " . $number->callerid . ". Sippeer id: " . $number->sippeer_id . "<br>");
+    $this->result->Log("Deleting data from asterisk for number: " . $number->number . " - " . $number->callerid . ". Sippeer id: " . $number->sippeer_id . "<br>");
 
     $sippeer_id = $number->sippeer_id;
 
@@ -145,12 +139,6 @@ class SipProcessor
     $number->sippeer_id = null;
     $number->SaveToDB();
   }
-
-  //-------------------------------------------------
-  // Duplicated code -- yeah I know, bad, but I am out of time.
-  // NOTE: There is a new $number->GetAppNumber() for the SIP/1234 style.
-  // TODO: Put this all in the PhoneProcessor.
-  //---------------------------------------------------
 
   private function AddToExtensions($number)
   {
@@ -196,10 +184,7 @@ class SipProcessor
       $number->altered_number = 0;
       $number->SaveToDB();
     }
-
   }
 }
-
-
 
 ?>
