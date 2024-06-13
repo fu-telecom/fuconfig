@@ -27,7 +27,7 @@ COPY ./default /usr/share/nginx/default
 COPY ./asterisk_scripts /asterisk_scripts
 
 # Clone the tftproot directory from the GitHub repository
-RUN git clone --depth 1 https://github.com/fu-telecom/fuconfig.git /tmp/fuconfig && mv /tmp/fuconfig/tftproot/* /tftproot && rm -rf /tmp/fuconfig
+RUN git clone --depth 1 https://github.com/fu-telecom/fuconfig.git /tmp/fuconfig && mv /tmp/fuconfig/tftproot/ / && rm -rf /tmp/fuconfig
 
 # Debugging: Verify contents of /tftproot after cloning
 RUN ls -la /tftproot
