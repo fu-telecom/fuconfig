@@ -28,16 +28,16 @@ RUN systemctl enable php8.2-fpm
 # Set the working directory
 WORKDIR /usr/share/nginx/html
 
-# Copy the composer.json and composer.lock files to the container
-COPY /fuconfig/composer.json /usr/share/nginx/html/composer.json
+# Copy the composer.json file to the container
+COPY composer.json /usr/share/nginx/html/composer.json
 
 # Install PHP dependencies
 RUN composer install
 
-# Copy the project files to the container
-COPY . /usr/share/nginx/html
-
-# Copy the startup script and make it executable
+# Copy the rest of the project files to the container
+ADD ./fuconfig /usr/share/nginx/html
+ADD ./default /usr/share/nginx/default
+COPY ./asterisk_scripts /asterisk_scripts
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
