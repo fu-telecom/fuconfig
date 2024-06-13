@@ -13,9 +13,8 @@ putenv('KUBECONFIG=/root/.kube/config');
 
 // Function to get the name of the Asterisk pod
 function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
-    // Add debugging statement
-    error_log("Running getAsteriskPodName with kubectl");
     $command = "$kubectlPath get pods -n $namespace -l $labelSelector -o jsonpath='{.items[0].metadata.name}' 2>&1";
+    error_log("Running getAsteriskPodName with command: $command");
     $output = shell_exec($command);
     error_log("kubectl command output: $output");
     if (!$output) {
@@ -26,10 +25,10 @@ function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
 
 // Function to execute a command in the Asterisk container
 function execCommandInContainer($namespace, $podName, $command, $kubectlPath) {
-    // Add debugging statement
-    error_log("Running execCommandInContainer with kubectl");
     $execCommand = "$kubectlPath exec -n $namespace $podName -- $command";
+    error_log("Running execCommandInContainer with command: $execCommand");
     $result = shell_exec($execCommand);
+    error_log("Command output: $result");
     return $result;
 }
 
