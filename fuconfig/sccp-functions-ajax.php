@@ -1,6 +1,22 @@
 <?php
 
-include_once('vendor/maclof/kubernetes-client/src/autoload.php');
+// Manually load the php-k8s library
+require 'vendor/maclof/kubernetes-client/src/Config.php';
+require 'vendor/maclof/kubernetes-client/src/Client.php';
+require 'vendor/maclof/kubernetes-client/src/HttpClient.php';
+require 'vendor/maclof/kubernetes-client/src/Collections/Collection.php';
+require 'vendor/maclof/kubernetes-client/src/Models/Model.php';
+require 'vendor/maclof/kubernetes-client/src/Collections/PodCollection.php';
+require 'vendor/maclof/kubernetes-client/src/Models/Pod.php';
+require 'vendor/maclof/kubernetes-client/src/Exceptions/HttpException.php';
+require 'vendor/maclof/kubernetes-client/src/Exceptions/NotFoundException.php';
+require 'vendor/maclof/kubernetes-client/src/Exceptions/ServerException.php';
+require 'vendor/maclof/kubernetes-client/src/Exceptions/UnauthorizedException.php';
+require 'vendor/maclof/kubernetes-client/src/Namespaces/Namespaceable.php';
+require 'vendor/maclof/kubernetes-client/src/Namespaces/PodNamespace.php';
+require 'vendor/maclof/kubernetes-client/src/HttpClient.php';
+require 'vendor/maclof/kubernetes-client/src/Contracts/HttpClientContract.php';
+
 use Maclof\Kubernetes\Client as KubernetesClient;
 
 include_once('FUConfig.php');
