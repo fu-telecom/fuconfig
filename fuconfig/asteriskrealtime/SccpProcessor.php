@@ -219,20 +219,36 @@ class SccpProcessor
 
   private function AddDeviceXmlConfig($phone)
   {
-    $this->result->Log("Copying XML Config - ");
-    $defaultXmlFilename = $phone->GetPhoneModel()->xml_config_filename;
-
-    $sepxmlcmd = 'cp /tftproot/' . $defaultXmlFilename . " /tftproot/" . $phone->phone_serial . '.cnf.xml >&1; echo $?';
-
-    // Execute command and log result.
-    $resultNumber = trim(shell_exec($sepxmlcmd));
-    $resultText = $resultNumber == 0 ? "Success" : "Failure";
-
-    // Add as an element.
-    $this->result->xmlConfig = $resultNumber;
-    $this->result->Log("Result (" . $resultNumber . "): " . $resultText . "<br>");
+      $this->result->Log("Copying XML Config - ");
+      $defaultXmlFilename = $phone->GetPhoneModel()->xml_config_filename;
+  
+      $sourcePath = '/tftproot/' . $defaultXmlFilename;
+      $destinationPath = '/tftproot/' . $phone->phone_serial . '.cnf.xml';
+  
+      // Check if source file exists
+      if (!file_exists($sourcePath)) {
+          $this->result->Log("Source XML config file does not exist: " . $sourcePath . "<br>");
+          return;
+      }
+  
+      // Construct the copy command
+      $sepxmlcmd = 'cp ' . escapeshellarg($sourcePath) . ' ' . escapeshellarg($destinationPath) . ' 2>&1; echo $?';
+  
+      // Execute command and log result.
+      $resultNumber = trim(shell_exec($sepxmlcmd));
+      $resultText = $resultNumber == 0 ? "Success" : "Failure";
+  
+      // Add as an element.
+      $this->result->xmlConfig = $resultNumber;
+  
+      $this->result->Log("Result (" . $resultNumber . "): " . $resultText . "<br>");
+      
+      if ($resultNumber != 0) {
+          $this->result->Log("Error executing command: " . $sepxmlcmd . "<br>");
+          $this->result->Log("Command output: " . $resultText . "<br>");
+      }
   }
-
+  
   private function AddLine($phone, $number)
   {
     $include_id_in_insert = true;
