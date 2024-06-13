@@ -37,7 +37,7 @@ RUN composer install
 # Copy the rest of the project files to the container
 ADD ./fuconfig /usr/share/nginx/html
 ADD ./default /usr/share/nginx/default
-COPY ./asterisk_scripts /asterisk_scripts
+ADD ./asterisk_scripts /asterisk_scripts
 COPY ./startupscript.sh /docker-entrypoint.d/35-startupscript.sh
 RUN chmod +x /docker-entrypoint.d/35-startupscript.sh
 
