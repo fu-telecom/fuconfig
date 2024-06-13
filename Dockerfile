@@ -15,12 +15,10 @@ RUN apt-get update && apt-get install -y \
     php-zip \
     php-soap \
     kubernetes-client \
-    tftpd-hpa \
-    systemd
+    tftpd-hpa
 
 # Remove default server definition
 RUN rm /etc/nginx/conf.d/default.conf
-RUN systemctl enable php8.2-fpm
 
 # Copy the contents of the fuconfig directory to the Nginx html directory
 ADD ./fuconfig /usr/share/nginx/html
@@ -47,4 +45,4 @@ RUN chmod -R 755 /usr/share/nginx/default
 EXPOSE 80 69/udp
 
 # Start PHP-FPM, TFTP server, and Nginx when the container launches
-CMD ["sh", "-c", "systemctl start tftpd-hpa && /docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "service tftpd-hpa start && /docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
