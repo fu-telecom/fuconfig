@@ -29,7 +29,7 @@ RUN systemctl enable php8.2-fpm
 WORKDIR /usr/share/nginx/html
 
 # Copy the composer.json file to the container
-COPY composer.json /usr/share/nginx/html/composer.json
+COPY /fuconfig/composer.json /usr/share/nginx/html/composer.json
 
 # Install PHP dependencies
 RUN composer install
