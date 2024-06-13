@@ -13,6 +13,7 @@ putenv('KUBECONFIG=/home/www-data/.kube/config');
 
 // Function to get the name of the Asterisk pod
 function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
+    // Add debugging statement
     $command = "$kubectlPath get pods -n $namespace -l $labelSelector -o jsonpath='{.items[0].metadata.name}' 2>&1";
     error_log("Running getAsteriskPodName with command: $command");
     $output = shell_exec($command);
@@ -25,7 +26,8 @@ function getAsteriskPodName($namespace, $labelSelector, $kubectlPath) {
 
 // Function to execute a command in the Asterisk container
 function execCommandInContainer($namespace, $podName, $command, $kubectlPath) {
-    $execCommand = "$kubectlPath exec -n $namespace $podName -- $command";
+    // Add debugging statement
+    $execCommand = "$kubectlPath exec -n $namespace $podName -- $command 2>&1";
     error_log("Running execCommandInContainer with command: $execCommand");
     $result = shell_exec($execCommand);
     error_log("Command output: $result");
@@ -92,9 +94,8 @@ try {
         OutputXML($xml);
     }
 } catch (Exception $e) {
-  error_log('Error: ' . $e->getMessage());
-  http_response_code(500);
-  echo 'Internal Server Error';
+    error_log('Error: ' . $e->getMessage());
+    http_response_code(500);
+    echo 'Internal Server Error';
 }
-
 ?>
