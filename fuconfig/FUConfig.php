@@ -49,18 +49,27 @@ class FUConfig
 
   public function AutoLoadAsteriskClasses()
   {
-    spl_autoload_register(function ($class) {
-      $classFile = __DIR__ . '/asteriskrealtime/' . $class . '.php';
-      if (is_file($classFile))
-        include $classFile;
-    });
-
-    spl_autoload_register(function ($class) {
-      $classFile = __DIR__ . '/asteriskdataclasses/' . $class . '.php';
-      if (is_file($classFile))
-        include $classFile;
-    });
+      spl_autoload_register(function ($class) {
+          $classFile = __DIR__ . '/asteriskrealtime/' . $class . '.php';
+          if (is_file($classFile)) {
+              include $classFile;
+              error_log("Autoloaded class: " . $class . " from " . $classFile);
+          } else {
+              error_log("Class file not found: " . $classFile);
+          }
+      });
+  
+      spl_autoload_register(function ($class) {
+          $classFile = __DIR__ . '/asteriskdataclasses/' . $class . '.php';
+          if (is_file($classFile)) {
+              include $classFile;
+              error_log("Autoloaded class: " . $class . " from " . $classFile);
+          } else {
+              error_log("Class file not found: " . $classFile);
+          }
+      });
   }
+  
 
   public function AutoLoadRouterClasses()
   {

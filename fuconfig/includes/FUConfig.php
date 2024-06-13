@@ -25,10 +25,10 @@ class FUConfig
 
   public function LoadDB()
   {
-    $host = '127.0.0.1';
+    $host = 'mysql';
     $db = 'fuconfig';
-    $user = 'fuconfig';
-    $pass = 'fuconfig';
+    $user = 'asteriskuser';
+    $pass = 'asteriskBlah111';
     $charset = 'utf8mb4';
 
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
