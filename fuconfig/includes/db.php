@@ -2,7 +2,7 @@
 
 //DB Info Goes Here
 
-$host = '127.0.0.1';
+$host = 'mysql';
 $db = 'fuconfig';
 $user = 'fuconfig';
 $pass = 'fuconfig';

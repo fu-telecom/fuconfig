@@ -31,3 +31,4 @@ EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container launches
 CMD ["sh", "-c", "/docker-entrypoint.d/35-startupscript.sh && nginx -g 'daemon off;'"]
+T
